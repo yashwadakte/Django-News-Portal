@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>News App</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<div class="container mt-4">
+
+    <h1 class="text-center mb-4">📰 Latest News</h1>
+
+    <!-- SEARCH -->
+    <form method="GET" class="mb-4">
+        <input type="text" name="q" class="form-control" placeholder="Search news...">
+    </form>
+
+    <!-- CATEGORY -->
+    <div class="mb-4 text-center">
+        <a href="/" class="btn btn-dark">All</a>
+        {% for c in categories %}
+            <a href="/?category={{ c.id }}" class="btn btn-info">{{ c.name }}</a>
+        {% endfor %}
+    </div>
+
+    <!-- NEWS -->
+    <div class="row">
+        {% for n in news %}
+        <div class="col-md-4">
+            <div class="card mb-4 shadow">
+
+                {% if n.image %}
+                <img src="{{ n.image.url }}" class="card-img-top">
+                {% endif %}
+
+                <div class="card-body">
+                    <h5>{{ n.title }}</h5>
+                    <p class="text-muted">{{ n.created_at|date:"M d, Y" }}</p>
+
+                    <a href="{% url 'news_detail' n.slug %}" class="btn btn-primary">
+                        Read More
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        {% empty %}
+        <p>No news found</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+</html>
